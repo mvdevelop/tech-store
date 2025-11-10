@@ -1,0 +1,34 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+:root {
+  --font-primary: 'Plus Jakarta Sans', system-ui, 'Segoe UI',sans-serif;
+  --font-secondary: 'Bricolage Grotesque', 'Plus Jakarta Sans', sans-serif;
+
+  --color-bg: #f4f4f5;
+  --color-text: #111827;
+  --color-accent: #2563eb;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: var(--font-primary);
+  font-weight: var(--fw-regular);
+  color: var(--color-text);
+  background: var(--color-bg);
+  height: 100%;
+  width: 100%;
+}
+
+.font-secondary {
+  font-family: var(--font-secondary);
+}
+
+nav {
+  padding: 10px;
+}
