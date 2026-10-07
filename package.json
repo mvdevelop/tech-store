@@ -1,13 +1,19 @@
 {
-  "name": "frontend",
+  "name": "tech-store",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "Tech Store — Modern e-commerce web application for tech products built with React 19, Vite 6, TypeScript, and Bootstrap 5.",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.17",
@@ -18,9 +24,7 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.9.5",
-    "react-toastify": "^11.0.5",
-    "swiper": "^12.0.3"
+    "react-router-dom": "^7.9.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
@@ -31,6 +35,9 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
-    "vite": "^6.3.1"
+    "typescript": "^5.2.2",
+    "typescript-eslint": "^7.18.0",
+    "vite": "^6.3.1",
+    "vitest": "^2.1.0"
   }
 }

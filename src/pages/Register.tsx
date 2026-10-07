@@ -1,25 +1,49 @@
-
-import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { registerUser } from "../api/auth";
-import { AuthContext } from "../context/AuthContext";
-import { Container, Card, Form, Button, Spinner, Alert } from "react-bootstrap";
+// src/pages/Register.tsx
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../api/auth';
+import { AuthContext } from '../context/AuthContext';
+import type { AuthContextType } from '../types';
+import {
+  Container,
+  Card,
+  Form,
+  Button,
+  Spinner,
+  Alert,
+} from 'react-bootstrap';
 
 export default function Register() {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext) || {};
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const authContext = useContext(AuthContext) as AuthContextType | null;
+  const login = authContext?.login;
 
-  const handleRegister = async (e) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // 🔒 Validação de senha conforme NIST 800-63B
+  const validatePassword = (pwd: string): string | null => {
+    if (pwd.length < 8) {
+      return 'A senha deve ter pelo menos 8 caracteres.';
+    }
+    return null;
+  };
+
+  const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
+    setError('');
 
     if (!name || !email || !password) {
-      setError("Preencha todos os campos.");
+      setError('Preencha todos os campos.');
+      return;
+    }
+
+    const pwdError = validatePassword(password);
+    if (pwdError) {
+      setError(pwdError);
       return;
     }
 
@@ -28,31 +52,33 @@ export default function Register() {
       const res = await registerUser({ name, email, password });
 
       if (res?.data?.error || (res.status && res.status >= 400)) {
-        const msg = res?.data?.error || res?.data?.message || "Falha no registro";
+        const msg =
+          res?.data?.error ||
+          res?.data?.message ||
+          'Falha no registro';
         setError(msg);
         setLoading(false);
         return;
       }
 
-      if (typeof login === "function") {
+      if (typeof login === 'function') {
         try {
           await login(email, password);
         } catch (err) {
-          console.warn("Auto-login falhou:", err);
-          navigate("/login");
+          console.warn('Auto-login falhou:', err);
+          navigate('/login');
           return;
         }
-        navigate("/dashboard");
+        navigate('/dashboard');
       } else {
-        navigate("/login");
+        navigate('/login');
       }
-    } catch (err) {
-      console.error(err);
+    } catch (err: any) {
       const msg =
         err.response?.data?.error ||
         err.response?.data?.message ||
         err.message ||
-        "Erro no registro";
+        'Erro no registro';
       setError(msg);
     } finally {
       setLoading(false);
@@ -64,10 +90,16 @@ export default function Register() {
       <Container className="d-flex justify-content-center">
         <Card
           className="p-4 shadow-lg border-0"
-          style={{ maxWidth: "400px", width: "100%", backgroundColor: "#1f1f1f" }}
+          style={{
+            maxWidth: '400px',
+            width: '100%',
+            backgroundColor: '#1f1f1f',
+          }}
         >
           <Card.Body>
-            <h2 className="text-center mb-4 text-info fw-semibold">Criar Conta</h2>
+            <h2 className="text-center mb-4 text-info fw-semibold">
+              Criar Conta
+            </h2>
 
             {error && (
               <Alert variant="danger" className="py-2 text-center">
@@ -101,10 +133,10 @@ export default function Register() {
               <Form.Group className="mb-4" controlId="formPassword">
                 <Form.Control
                   type="password"
-                  placeholder="Senha (mínimo 6 caracteres)"
+                  placeholder="Senha (mínimo 8 caracteres)"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  minLength={6}
+                  minLength={8}
                   required
                   className="bg-secondary text-light border-0"
                 />
@@ -118,21 +150,27 @@ export default function Register() {
               >
                 {loading ? (
                   <>
-                    <Spinner animation="border" size="sm" className="me-2" />
+                    <Spinner
+                      animation="border"
+                      size="sm"
+                      className="me-2"
+                    />
                     Criando...
                   </>
                 ) : (
-                  "Criar Conta"
+                  'Criar Conta'
                 )}
               </Button>
             </Form>
 
             <div className="text-center mt-4">
-              <p className="text-secondary mb-1">Já tem uma conta?</p>
+              <p className="text-secondary mb-1">
+                Já tem uma conta?
+              </p>
               <Button
                 variant="link"
                 className="text-decoration-none text-info p-0 fw-semibold"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate('/login')}
               >
                 Fazer Login
               </Button>

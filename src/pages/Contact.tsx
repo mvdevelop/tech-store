@@ -1,39 +1,69 @@
+// src/pages/Contact.tsx
+import React, { useRef, useState } from 'react';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Alert,
+  Card,
+  Spinner,
+} from 'react-bootstrap';
 
-import React, { useRef, useState } from "react";
-import { Container, Row, Col, Form, Button, Alert, Card, Spinner } from "react-bootstrap";
-import emailjs from "emailjs-com";
+// 🔧 Tipos
+interface EmailJsResponse {
+  status: number;
+  text: string;
+}
 
 export default function Contact() {
-  const form = useRef();
+  const form = useRef<HTMLFormElement>(null);
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  const sendEmail = (e) => {
+  // 🔐 Credenciais carregadas de variáveis de ambiente (nunca hardcoded)
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+  const sendEmail = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Validação: verifica se credenciais estão configuradas
+    if (!serviceId || !templateId || !publicKey) {
+      setError(
+        'Configurações do EmailJS não encontradas. ' +
+        'Verifique as variáveis de ambiente.'
+      );
+      return;
+    }
+
     setLoading(true);
     setSent(false);
-    setError("");
+    setError('');
 
-    emailjs
-      .sendForm(
-        "YOUR_SERVICE_ID", // ← substitua pelo seu Service ID
-        "YOUR_TEMPLATE_ID", // ← substitua pelo seu Template ID
-        form.current,
-        "YOUR_PUBLIC_KEY" // ← substitua pelo seu Public Key
-      )
-      .then(
-        () => {
-          setSent(true);
-          setLoading(false);
-          form.current.reset();
-        },
-        (err) => {
-          setError("Erro ao enviar a mensagem. Tente novamente mais tarde.");
-          console.error(err);
-          setLoading(false);
-        }
-      );
+    // 🔄 Dinâmico import para EmailJS — carregado sob demanda
+    import('emailjs-com')
+      .then((emailjs) => {
+        emailjs.sendForm<EmailJsResponse>(
+          serviceId,
+          templateId,
+          form.current as HTMLFormElement,
+          publicKey,
+        );
+      })
+      .then(() => {
+        setSent(true);
+        setLoading(false);
+        form.current?.reset();
+      })
+      .catch((err: unknown) => {
+        setError('Erro ao enviar a mensagem. Tente novamente mais tarde.');
+        console.error(err);
+        setLoading(false);
+      });
   };
 
   return (
@@ -43,14 +73,15 @@ export default function Contact() {
           <Col md={8} lg={6}>
             <Card
               className="shadow-lg border-0 p-4"
-              style={{ backgroundColor: "#1e1e1e" }}
+              style={{ backgroundColor: '#1e1e1e' }}
             >
               <Card.Body>
-                <h2 className="text-center text-primary fw-semibold mb-4">
+                <h2 className="text-center mb-4 text-primary fw-semibold">
                   Contato
                 </h2>
                 <p className="text-center text-secondary small mb-4">
-                  Envie uma mensagem e entraremos em contato com você o mais rápido possível.
+                  Envie uma mensagem e entraremos em contato com você o mais
+                  rápido possível.
                 </p>
 
                 {sent && (
@@ -104,11 +135,15 @@ export default function Contact() {
                   >
                     {loading ? (
                       <>
-                        <Spinner animation="border" size="sm" className="me-2" />
+                        <Spinner
+                          animation="border"
+                          size="sm"
+                          className="me-2"
+                        />
                         Enviando...
                       </>
                     ) : (
-                      "Enviar Mensagem"
+                      'Enviar Mensagem'
                     )}
                   </Button>
                 </Form>

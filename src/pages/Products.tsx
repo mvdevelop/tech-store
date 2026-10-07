@@ -1,19 +1,27 @@
-
+// src/pages/Products.tsx
 import React, { useEffect, useState } from 'react';
 import { Spinner, Card, Container, Row, Col, Alert } from 'react-bootstrap';
+import api from '../api/auth';
+
+interface ProductFromApi {
+  _id: string;
+  name: string;
+  value: number;
+  image?: string;
+}
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<ProductFromApi[]>([]);
   const [loading, setLoading] = useState(true);
   const [timeoutReached, setTimeoutReached] = useState(false);
 
   useEffect(() => {
-    let timeoutId;
+    let timeoutId: NodeJS.Timeout;
 
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/data');
-        const data = await response.json();
+        const response = await api.get('/data');
+        const data = response.data;
         setProducts(Array.isArray(data) ? data : []);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -37,7 +45,9 @@ export default function Products() {
 
   return (
     <Container className="py-5">
-      <h2 className="text-center mb-4 text-primary fw-semibold">Nossos Produtos</h2>
+      <h2 className="text-center mb-4 text-primary fw-semibold">
+        Nossos Produtos
+      </h2>
 
       {/* 🔹 Carregando */}
       {loading && (
@@ -50,12 +60,13 @@ export default function Products() {
       {!loading && products.length > 0 && (
         <Row xs={1} sm={2} md={3} lg={4} className="g-4">
           {products.map((item, index) => {
-            const hasImage = typeof item.image === 'string' && item.image.trim() !== '';
+            const hasImage =
+              typeof item.image === 'string' && item.image.trim() !== '';
             const imageUrl = hasImage
-              ? item.image.startsWith('http')
+              ? item.image!.startsWith('http')
                 ? item.image
                 : `http://localhost:3000${
-                    item.image.startsWith('/uploads')
+                    item.image!.startsWith('/uploads')
                       ? item.image
                       : `/uploads/${item.image}`
                   }`
@@ -69,16 +80,23 @@ export default function Products() {
                       variant="top"
                       src={imageUrl}
                       alt={item.name || 'Product image'}
-                      onError={(e) => (e.target.style.display = 'none')}
+                      onError={(e) =>
+                        ((e.target as HTMLImageElement).style.display = 'none')
+                      }
                     />
                   ) : (
-                    <div className="d-flex align-items-center justify-content-center bg-light" style={{ height: '200px' }}>
+                    <div
+                      className="d-flex align-items-center justify-content-center bg-light"
+                      style={{ height: '200px' }}
+                    >
                       <p className="text-muted mb-0">📷 Sem imagem</p>
                     </div>
                   )}
 
                   <Card.Body className="text-center">
-                    <Card.Title className="fw-semibold">{item.name || 'Produto sem nome'}</Card.Title>
+                    <Card.Title className="fw-semibold">
+                      {item.name || 'Produto sem nome'}
+                    </Card.Title>
                     <Card.Text className="text-secondary mb-0">
                       💲 {item.value || 'N/A'}
                     </Card.Text>

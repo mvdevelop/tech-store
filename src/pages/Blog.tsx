@@ -1,7 +1,7 @@
-
-import React from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
-import blogData from "../Blog.json";
+// src/pages/Blog.tsx
+import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import { blogPosts } from '../data/blog';
+import type { BlogPost } from '../types';
 
 export default function Blog() {
   return (
@@ -12,17 +12,19 @@ export default function Blog() {
         </h2>
 
         <Row className="g-4">
-          {blogData.map((post) => (
+          {blogPosts.map((post: BlogPost) => (
             <Col key={post.id} xs={12} sm={6} md={4} lg={3}>
               <Card
                 className="h-100 shadow-lg border-0 text-light"
-                style={{ backgroundColor: "#1e1e1e" }}
+                style={{ backgroundColor: '#1e1e1e' }}
               >
                 <Card.Img
                   variant="top"
                   src={post.image}
                   alt={post.name}
-                  onError={(e) => (e.target.style.display = "none")}
+                  onError={(e) =>
+                    ((e.target as HTMLImageElement).style.display = 'none')
+                  }
                 />
                 <Card.Body className="d-flex flex-column justify-content-between">
                   <div>
@@ -39,7 +41,7 @@ export default function Blog() {
                   <Button
                     variant="primary"
                     className="mt-3 fw-semibold"
-                    style={{ backgroundColor: "#0d6efd" }}
+                    style={{ backgroundColor: '#0d6efd' }}
                   >
                     Ler mais
                   </Button>

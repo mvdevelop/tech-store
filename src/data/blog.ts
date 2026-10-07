@@ -1,0 +1,103 @@
+// src/data/blog.ts
+import type { BlogPost } from '../types';
+
+export const blogPosts: BlogPost[] = [
+  {
+    id: 1,
+    name: 'A revolução da IA em 2025',
+    description:
+      'Como a inteligência artificial está transformando o mercado de trabalho e o cotidiano das pessoas.',
+    category: 'Tecnologia',
+    image: 'https://via.placeholder.com/400x250?text=IA+2025',
+  },
+  {
+    id: 2,
+    name: 'Os melhores jogos indie do ano',
+    description:
+      'Uma seleção dos jogos independentes que mais se destacaram pela criatividade e jogabilidade.',
+    category: 'Games',
+    image: 'https://via.placeholder.com/400x250?text=Jogos+Indie',
+  },
+  {
+    id: 3,
+    name: 'Dicas para um home office produtivo',
+    description:
+      'Trabalhar em casa exige disciplina e boas práticas. Veja como otimizar seu espaço e tempo.',
+    category: 'Lifestyle',
+    image: 'https://via.placeholder.com/400x250?text=Home+Office',
+  },
+  {
+    id: 4,
+    name: 'Tendências de design para 2025',
+    description:
+      'Cores vibrantes, tipografia ousada e minimalismo são os pilares do design moderno.',
+    category: 'Design',
+    image: 'https://via.placeholder.com/400x250?text=Design+2025',
+  },
+  {
+    id: 5,
+    name: 'Como proteger seus dados online',
+    description:
+      'Aprenda boas práticas de cibersegurança para manter sua privacidade na internet.',
+    category: 'Segurança Digital',
+    image: 'https://via.placeholder.com/400x250?text=Segurança+Online',
+  },
+  {
+    id: 6,
+    name: 'O impacto dos carros elétricos',
+    description:
+      'A transição para veículos elétricos está mudando o setor automotivo e o meio ambiente.',
+    category: 'Sustentabilidade',
+    image: 'https://via.placeholder.com/400x250?text=Carros+Elétricos',
+  },
+  {
+    id: 7,
+    name: 'Fotografia com smartphone',
+    description:
+      'Técnicas simples para capturar fotos incríveis usando apenas seu celular.',
+    category: 'Fotografia',
+    image: 'https://via.placeholder.com/400x250?text=Fotografia+Mobile',
+  },
+  {
+    id: 8,
+    name: 'Os melhores gadgets para gamers',
+    description:
+      'Headsets, mouses e teclados que levam sua experiência de jogo para outro nível.',
+    category: 'Games',
+    image: 'https://via.placeholder.com/400x250?text=Gadgets+Gamer',
+  },
+  {
+    id: 9,
+    name: 'Aprenda React em 7 dias',
+    description:
+      'Um guia prático para quem quer começar no desenvolvimento frontend moderno.',
+    category: 'Programação',
+    image: 'https://via.placeholder.com/400x250?text=Aprenda+React',
+  },
+  {
+    id: 10,
+    name: 'O futuro da computação quântica',
+    description:
+      'Entenda como a computação quântica pode revolucionar a tecnologia nos próximos anos.',
+    category: 'Ciência',
+    image: 'https://via.placeholder.com/400x250?text=Computação+Quântica',
+  },
+  {
+    id: 11,
+    name: 'Dicas de finanças pessoais para iniciantes',
+    description:
+      'Como começar a economizar, investir e controlar seus gastos de forma inteligente.',
+    category: 'Educação Financeira',
+    image: 'https://via.placeholder.com/400x250?text=Finanças+Pessoais',
+  },
+  {
+    id: 12,
+    name: 'O poder das redes sociais no marketing',
+    description:
+      'Descubra como as marcas utilizam o Instagram e o TikTok para alcançar novos públicos.',
+    category: 'Marketing Digital',
+    image: 'https://via.placeholder.com/400x250?text=Marketing+Digital',
+  },
+];
+
+export default blogPosts;
