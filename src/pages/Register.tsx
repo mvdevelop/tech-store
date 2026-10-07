@@ -51,7 +51,7 @@ export default function Register() {
     try {
       const res = await registerUser({ name, email, password });
 
-      if (res?.data?.error || (res.status && res.status >= 400)) {
+      if (res.data && 'error' in res.data) {
         const msg =
           res?.data?.error ||
           res?.data?.message ||

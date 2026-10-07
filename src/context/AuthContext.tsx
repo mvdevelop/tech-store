@@ -1,5 +1,5 @@
 // src/context/AuthContext.tsx
-import React, {
+import {
   createContext,
   useState,
   useEffect,
@@ -49,6 +49,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // Faz login e guarda dados do usuário + localStorage
   const login = async (email: string, password: string): Promise<void> => {
     const res = await loginUser({ email, password });
+
+    // Validação de tipagem discriminada
+    if ('error' in res.data) {
+      throw new Error(res.data.error);
+    }
+
     const userData: User = res.data.user;
     const token = res.data.accessToken;
 

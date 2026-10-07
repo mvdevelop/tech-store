@@ -20,15 +20,7 @@ export default tseslint.config(
       parserOptions: {
         ecmaFeatures: { jsx: true },
         sourceType: 'module',
-        project: [
-          'tsconfig.json',
-          'tsconfig.node.json',
-        ] /*,
-        tsconfigRootDir: $tsRootDir, */
       },
-    },
-    plugins: {
-      'react-refresh': reactRefresh,
     },
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],

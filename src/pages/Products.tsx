@@ -1,5 +1,5 @@
 // src/pages/Products.tsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Spinner, Card, Container, Row, Col, Alert } from 'react-bootstrap';
 import api from '../api/auth';
 
@@ -16,7 +16,7 @@ export default function Products() {
   const [timeoutReached, setTimeoutReached] = useState(false);
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const fetchData = async () => {
       try {

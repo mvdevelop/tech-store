@@ -43,6 +43,12 @@ export function useAuth() {
   // ✅ Login
   const login = async (credentials: { email: string; password: string }): Promise<User> => {
     const res = await loginUser(credentials);
+
+    // Validação de tipagem discriminada
+    if ('error' in res.data) {
+      throw new Error(res.data.error);
+    }
+
     const userData: User = res.data.user;
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));

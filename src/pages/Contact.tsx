@@ -1,5 +1,5 @@
 // src/pages/Contact.tsx
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   Container,
   Row,
@@ -10,12 +10,6 @@ import {
   Card,
   Spinner,
 } from 'react-bootstrap';
-
-// 🔧 Tipos
-interface EmailJsResponse {
-  status: number;
-  text: string;
-}
 
 export default function Contact() {
   const form = useRef<HTMLFormElement>(null);
@@ -47,7 +41,7 @@ export default function Contact() {
     // 🔄 Dinâmico import para EmailJS — carregado sob demanda
     import('emailjs-com')
       .then((emailjs) => {
-        emailjs.sendForm<EmailJsResponse>(
+        return emailjs.sendForm(
           serviceId,
           templateId,
           form.current as HTMLFormElement,

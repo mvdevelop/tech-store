@@ -1,10 +1,25 @@
 // src/api/auth.ts
+/// <reference types="vite/client" />
 import axios, { AxiosInstance } from 'axios';
+
+// Declaração de tipos para import.meta.env
+declare global {
+  interface ImportMetaEnv {
+    readonly VITE_API_URL: string;
+    readonly VITE_EMAILJS_SERVICE_ID: string;
+    readonly VITE_EMAILJS_TEMPLATE_ID: string;
+    readonly VITE_EMAILJS_PUBLIC_KEY: string;
+  }
+
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }
+}
 
 // ✅ Define a URL base da API — usa variável de ambiente ou fallback local
 // Em ambientes de produção, VITE_API_URL deve ser definida como HTTPS
 const API_URL =
-  import.meta.env.VITE_API_URL?.replace(/\/+$/, '') || 'http://localhost:3000/api/auth';
+  (import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api/auth').replace(/\/+$/, '');
 
 // ⚠️ Log de segurança: alerta em ambiente de desenvolvimento quando using HTTP
 if (import.meta.env.DEV && API_URL.startsWith('http://')) {
@@ -54,7 +69,7 @@ export interface RegisterRequest {
   password: string;
 }
 
-export interface AuthApiResponse {
+export interface AuthSuccessResponse {
   accessToken: string;
   user: {
     id: string;
@@ -63,15 +78,22 @@ export interface AuthApiResponse {
   };
 }
 
+export interface AuthErrorResponse {
+  error: string;
+  message?: string;
+}
+
+export type AuthResponse = AuthSuccessResponse | AuthErrorResponse;
+
 // ✅ Funções de autenticação com tipagem
 export const registerUser = (data: RegisterRequest) =>
-  api.post<AuthApiResponse>('/register', data);
+  api.post<AuthResponse>('/register', data);
 
 export const loginUser = (data: LoginRequest) =>
-  api.post<AuthApiResponse>('/login', data);
+  api.post<AuthResponse>('/login', data);
 
 export const refreshToken = () =>
-  api.post<{ accessToken: string; user?: AuthApiResponse['user'] }>('/refresh', {});
+  api.post<{ accessToken: string; user?: AuthSuccessResponse['user'] }>('/refresh', {});
 
 export const logoutUser = () =>
   api.post('/logout', {});

@@ -1,5 +1,4 @@
 // src/pages/About.tsx
-import React from 'react';
 import {
   Container,
   Row,
