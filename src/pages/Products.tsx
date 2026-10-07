@@ -16,7 +16,7 @@ export default function Products() {
   const [timeoutReached, setTimeoutReached] = useState(false);
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
+    let timeoutId = setTimeout(() => {}, 0);
 
     const fetchData = async () => {
       try {

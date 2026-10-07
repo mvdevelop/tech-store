@@ -73,11 +73,15 @@ export default function Register() {
       } else {
         navigate('/login');
       }
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as {
+        response?: { data?: { error?: string; message?: string } };
+        message?: string;
+      };
       const msg =
-        err.response?.data?.error ||
-        err.response?.data?.message ||
-        err.message ||
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        error.message ||
         'Erro no registro';
       setError(msg);
     } finally {

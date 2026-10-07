@@ -1,94 +1,293 @@
+# 🚀 Tech Store
 
-🚀 Tech Store
+> **Tech Store** — Modern e-commerce web application for tech products, built with React 19, TypeScript, Vite 6, and Bootstrap 5. Features JWT authentication, protected routes, responsive design, and a fully typed codebase with comprehensive security practices.
 
-A modern, responsive e-commerce web application built with React, Vite, and Bootstrap 5. This project provides a sleek user interface to browse and purchase tech products seamlessly.
+---
 
-✨ Features
+## 📑 Table of Contents
 
-⚡ Fast and optimized with Vite as the build tool
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Project Structure](#-project-structure)
+- [Environment Variables](#-environment-variables)
+- [Testing](#-testing)
+- [Security](#-security)
+- [CI/CD](#-cicd)
+- [Contributing](#-contributing)
+- [License](#-license)
 
-📱 Responsive design powered by Bootstrap 5
+---
 
-🛍️ Product listing and detail pages
+## ✨ Features
 
-🔒 User authentication with JWT tokens
+- ⚡ **Fast & Optimized** — Vite 6 build tool with HMR for instant development feedback
+- 📱 **Fully Responsive** — Bootstrap 5 grid system with mobile-first design
+- 🛍️ **Product Catalog** — 20 tech products with pricing, categories, and images
+- 🔒 **JWT Authentication** — Secure token-based auth with automatic refresh
+- 🛡️ **Protected Routes** — Role-based route guarding at the client level
+- 🔐 **Type Safety** — Full TypeScript coverage with strict mode enabled
+- 🧪 **Tested** — Unit and integration tests with Vitest + React Testing Library
+- 🛠️ **Developer Experience** — ESLint, Prettier, and pre-commit hooks
 
-🛒 Shopping cart functionality
+---
 
-🔗 API integration for product and user data
+## 🛠️ Tech Stack
 
-⚛️ Modern React hooks and context for state management
+### Core
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **React** | 19.0 | UI library |
+| **TypeScript** | 5.2+ | Type-safe JavaScript |
+| **Vite** | 6.3 | Build tool & dev server |
+| **Bootstrap** | 5.3 | CSS framework |
+| **React Bootstrap** | 2.10 | Bootstrap React components |
 
-🛠️ Tech Stack
+### Libraries
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **Axios** | 1.13+ | HTTP client with interceptors |
+| **React Router** | 7.9 | Client-side routing |
+| **React Icons** | 5.5 | SVG icon library |
+| **EmailJS** | 3.2+ | Email service integration |
 
-⚛️ React — UI library
+### Dev Tools
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| **ESLint** | 9.22+ | Linting with strict rules |
+| **TypeScript ESLint** | 8.0+ | TypeScript linting |
+| **Vitest** | 2.1+ | Unit & integration testing |
+| **@testing-library/react** | 16.3 | React component testing |
+| **Prettier** | — | Code formatting |
 
-🚀 Vite — Frontend build tool and dev server
+---
 
-🎨 Bootstrap 5 — Styling and responsive components
+## ⚙️ Getting Started
 
-📡 Axios — HTTP client for API calls
+### 📋 Prerequisites
 
-🗺️ React Router — Client-side routing
+- **Node.js** v18+ (LTS)
+- **npm** or **yarn**
+- API backend running at `http://localhost:3000` (or configure `VITE_API_URL`)
 
-🚀 Getting Started
-📋 Prerequisites
+### 📦 Installation
 
-🟢 Node.js v16 or higher
-
-📦 npm or yarn
-
-⚙️ Installation
-
-Clone the repository:
-
+```bash
+# Clone the repository
 git clone https://github.com/mvdevelop/tech-store.git
 cd tech-store
 
-
-Install dependencies:
-
+# Install dependencies
 npm install
-# or
-yarn install
 
+# Copy environment template
+cp .env.example .env.local
+# Edit .env.local with your credentials
+```
 
-Start the development server:
+### 🔧 Environment Setup
 
+Create a `.env.local` file in the project root:
+
+```env
+# API Backend
+VITE_API_URL=http://localhost:3000/api/auth
+
+# EmailJS (for contact form)
+VITE_EMAILJS_SERVICE_ID=your_service_id
+VITE_EMAILJS_TEMPLATE_ID=your_template_id
+VITE_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+### 🚀 Development
+
+```bash
+# Start development server
 npm run dev
-# or
-yarn dev
+# Open http://localhost:5173
 
+# Run type checking
+npm run typecheck
 
-Open your browser at http://localhost:5173 (default Vite port)
+# Run linting
+npm run lint
 
-📂 Project Structure
-/src
-  /components       # 🔧 Reusable UI components
-  /pages            # 🗂️ React pages (Home, About, Contact, etc.)
-  /api              # 📡 API utility functions with Axios
-  /context          # 🌐 React Context for global state (e.g. Auth)
-  main.jsx          # 🚪 React entry point
-vite.config.js      # ⚙️ Vite configuration
+# Run tests (watch mode)
+npm run test
 
-🔐 Environment Variables
+# Run tests with UI
+npm run test:ui
+```
 
-Create a .env file in the project root with the following (adjust accordingly):
+### 🏗️ Build for Production
 
-VITE_API_URL=http://localhost:3000/api
+```bash
+npm run build
+npm run preview
+```
 
-📜 Available Scripts
+---
 
-npm run dev — 🏃‍♂️ Start the development server
+## 📂 Project Structure
 
-npm run build — 📦 Build the app for production
+```
+tech-store/
+├── .env.example              # Environment variables template
+├── .gitignore                # Git ignore rules
+├── README.md                 # This file
+├── eslint.config.js          # ESLint configuration
+├── index.html              # HTML entry point
+├── package.json              # Dependencies & scripts
+├── tsconfig.json             # TypeScript configuration
+├── vite.config.ts            # Vite configuration
+├── vitest.config.ts          # Vitest configuration
+├── src/
+│   ├── main.tsx              # React entry point
+│   ├── App.tsx               # Router configuration
+│   ├── ProtectedRoute.tsx    # Auth route guard
+│   ├── index.css             # Global styles
+│   ├── api/
+│   │   └── auth.ts           # Axios API client
+│   ├── assets/
+│   │   └── img/
+│   │       └── icon.png      # Favicon
+│   ├── components/
+│   │   ├── Navbar.tsx        # Navigation bar
+│   │   └── Footer.tsx        # Site footer
+│   ├── context/
+│   │   └── AuthContext.tsx   # Auth context provider
+│   ├── hooks/
+│   │   └── useAuth.ts        # Auth hook
+│   ├── pages/
+│   │   ├── Home.tsx          # Product showcase
+│   │   ├── Products.tsx      # API-driven product list
+│   │   ├── Blog.tsx          # Blog listing
+│   │   ├── About.tsx         # Company page
+│   │   ├── Contact.tsx       # Contact form
+│   │   ├── Login.tsx         # Login form
+│   │   ├── Register.tsx      # Registration form
+│   │   └── Dashboard.tsx     # User dashboard
+│   ├── data/
+│   │   ├── products.ts       # Product data (typed)
+│   │   └── blog.ts           # Blog data (typed)
+│   ├── types/
+│   │   ├── index.ts          # Global type definitions
+│   │   └── assets.d.ts       # Asset import declarations
+│   ├── __tests__/            # Test directory
+│   └── setupTests.ts         # Test setup & mocks
+├── .claude/
+│   └── settings.local.json   # Claude Code settings
+└── .github/
+    └── workflows/
+        └── ci.yml            # GitHub Actions CI/CD
+```
 
-npm run preview — 👀 Preview the production build locally
+---
 
-🤝 Contributing
+## 🔐 Environment Variables
 
-Feel free to open issues or submit pull requests. Contributions are welcome! 💡
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `VITE_API_URL` | ✅ Yes | Backend API URL (use HTTPS in production) |
+| `VITE_EMAILJS_SERVICE_ID` | ❌ No | EmailJS service ID |
+| `VITE_EMAILJS_TEMPLATE_ID` | ❌ No | EmailJS template ID |
+| `VITE_EMAILJS_PUBLIC_KEY` | ❌ No | EmailJS public key |
 
-📄 License
+> ⚠️ **Never commit `.env.local` to version control.** Use `.env.example` as a template.
 
-This project is licensed under the MIT License. 📝
+---
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm run test
+
+# Run tests with coverage
+npm run test:coverage
+
+# Run specific test file
+npx vitest run src/pages/__tests__/Login.test.tsx
+```
+
+**Testing Stack:**
+- **Vitest** — Fast test runner with Vite integration
+- **@testing-library/react** — React component testing utilities
+- **@testing-library/jest-dom** — Custom DOM matchers
+- **@testing-library/user-event** — User interaction simulation
+
+---
+
+## 🛡️ Security
+
+### Authentication & Authorization
+- **JWT-based authentication** with HttpOnly cookies
+- **Access token** stored in memory (not localStorage) to prevent XSS
+- **Refresh token** automatically renewed every 14 minutes
+- **Protected routes** with client-side route guarding
+
+### Security Headers
+The application enforces the following security headers via Vite configuration:
+- `Content-Security-Policy` (CSP)
+- `X-Frame-Options: DENY` (prevent clickjacking)
+- `X-Content-Type-Options: nosniff`
+- `Strict-Transport-Security` (HSTS)
+
+### Security Practices
+| Practice | Status | Description |
+|----------|--------|-------------|
+| HTTPS enforcement | ✅ | All API calls require HTTPS in production |
+| CSRF protection | ✅ | SameSite cookies + CSRF tokens |
+| XSS prevention | ✅ | React's built-in escaping + CSP |
+| Password policies | ✅ | Minimum 8 characters (NIST 800-63B) |
+| Secrets management | ✅ | Environment variables via `import.meta.env` |
+| Error handling | ✅ | Generic error messages, no stack traces exposed |
+
+---
+
+## 🔄 CI/CD
+
+The project includes a GitHub Actions workflow that runs on every push/PR:
+
+```
+✅ Linting (ESLint)
+✅ Type checking (tsc)
+✅ Security audit (npm audit)
+✅ Tests (Vitest)
+✅ Build verification
+```
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feat/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feat/amazing-feature`)
+5. Open a Pull Request
+
+### Code Standards
+- Use **TypeScript strict mode** — all code must be typed
+- Follow **ESLint** rules — `npm run lint` before committing
+- Write **tests** for new features — `npm run test`
+- Run **type checking** — `npm run typecheck`
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+---
+
+## 💬 Contact
+
+- **GitHub**: [@mvdevelop](https://github.com/mvdevelop)
+- **Email**: marcosvmdilly@gmail.com
+
+---
+
+**⭐ Star this project if you find it helpful!**

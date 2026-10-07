@@ -29,7 +29,7 @@ export function useAuth() {
           setUser(userData);
           localStorage.setItem('user', JSON.stringify(userData));
         }
-      } catch (err) {
+      } catch {
         console.warn('Sessão expirada, login necessário novamente.');
         localStorage.removeItem('user');
         setUser(null);

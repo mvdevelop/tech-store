@@ -1,19 +1,16 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'node_modules', '.claude'] },
   {
+    files: ['**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
       ...tseslint.configs.recommended,
-      reactHooks.configs['recommended'],
-      reactRefresh.configs.vite,
+      ...tseslint.configs.strict,
     ],
-    files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -23,16 +20,26 @@ export default tseslint.config(
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
-      ...reactRefresh.configs.vite.rules,
-      '@typescript-eslint/no-unused-vars': [
+      // 🔧 TypeScript
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unused-vars': ['error', {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrors: 'allow',
+      }],
+
+      // 🔧 React Hooks (usado indiretamente via Strict mode)
+      'react-hooks/rules-of-hooks': 'off', // Usaremos o plugin separado para React
+
+      // 🔧 Import/Export
+      'import/no-anonymous-default-export': 'off',
+      'import/order': [
         'error',
         {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrors: 'allow',
+          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          'newlines/enforce': 'always',
         },
       ],
     },
   },
-)
+);

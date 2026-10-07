@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky/common.sh"
+
+echo "🔍 Running pre-commit checks..."
+
+# Type check
+npx tsc --noEmit || exit 1
+
+# Lint
+npx eslint . --ext .ts,.tsx --fix || exit 1
+
+# Format
+npx prettier --write . --ignore-path .gitignore || exit 1
+
+# Run tests
+npx vitest run --passWithNoTests || exit 1
+
+echo "✅ All checks passed!"
